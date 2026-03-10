@@ -11,7 +11,7 @@
 
 import { readFileSync, writeFileSync } from "fs";
 import { spawn } from "child_process";
-import { basename, dirname, resolve } from "path";
+import { resolve } from "path";
 
 const CLAUDE_BIN = process.env.CLAUDE_BIN || "/root/.bun/bin/claude";
 const PROJECT_ROOT =
@@ -34,10 +34,7 @@ if (!inputPath) usage();
 
 const outputPath =
   process.argv[3] ||
-  resolve(
-    dirname(inputPath),
-    basename(inputPath, ".jsonl") + ".grade.json"
-  );
+  resolve(PROJECT_ROOT, "customer_support-output_grade.json");
 
 // Read inputs
 const sessionLog = readFileSync(inputPath, "utf-8");

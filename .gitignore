@@ -2,3 +2,5 @@ node_modules/
 bun.lock
 *.log
 .customer-support-sessions.json
+customer_support-output_grade.json
+last-run.grade.json
