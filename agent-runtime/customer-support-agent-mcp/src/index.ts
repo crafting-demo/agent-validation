@@ -8,10 +8,10 @@ import { readFileSync, writeFileSync, existsSync } from "fs";
 
 const CLAUDE_BIN = process.env.CLAUDE_BIN || "/root/.bun/bin/claude";
 const ECOMMERCE_MCP_DIR =
-  process.env.ECOMMERCE_MCP_DIR || "/home/owner/ecommerce-mcp";
+  process.env.ECOMMERCE_MCP_DIR || "/home/owner/agent-runtime/ecommerce-mcp";
 const WORKING_DIR = process.env.WORKING_DIR || "/";
 const PROJECT_ROOT =
-  process.env.PROJECT_ROOT || "/home/owner/agent-validation";
+  process.env.PROJECT_ROOT || "/home/owner/agent-runtime";
 
 // Persist session map to disk so it survives MCP server restarts
 const SESSION_MAP_PATH =

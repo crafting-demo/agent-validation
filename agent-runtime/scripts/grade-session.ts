@@ -5,8 +5,8 @@
  * Usage:
  *   bun run scripts/grade-session.ts <path-to-session.jsonl> [output-path.json]
  *
- * If output-path is omitted, writes to <session-basename>.grade.json
- * in the same directory as the input file.
+ * If output-path is omitted, writes to customer_support-output_grade.json
+ * in the project root.
  */
 
 import { readFileSync, writeFileSync } from "fs";
@@ -15,7 +15,7 @@ import { resolve } from "path";
 
 const CLAUDE_BIN = process.env.CLAUDE_BIN || "/root/.bun/bin/claude";
 const PROJECT_ROOT =
-  process.env.PROJECT_ROOT || "/home/owner/agent-validation";
+  process.env.PROJECT_ROOT || "/home/owner/agent-runtime";
 const GRADER_PROMPT_PATH = resolve(
   PROJECT_ROOT,
   "prompts",
@@ -40,13 +40,11 @@ const outputPath =
 const sessionLog = readFileSync(inputPath, "utf-8");
 const graderSystemPrompt = readFileSync(GRADER_PROMPT_PATH, "utf-8").trim();
 
-// Build the user message: the session log itself
 const userMessage = `Here is the full session log to grade:\n\n${sessionLog}`;
 
 console.error(`Grading session: ${inputPath}`);
 console.error(`Using grader prompt: ${GRADER_PROMPT_PATH}`);
 
-// Run Claude as grader — no tools needed, just analysis
 const args = [
   "-p",
   "--dangerously-skip-permissions",
@@ -86,7 +84,6 @@ proc.on("close", (code: number | null) => {
 
   const raw = stdout.trim();
 
-  // Try to parse the JSON response — claude might wrap it in markdown fences
   let json: string;
   const fenceMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (fenceMatch) {
@@ -98,7 +95,6 @@ proc.on("close", (code: number | null) => {
   try {
     const result = JSON.parse(json);
 
-    // Add metadata
     result.metadata = {
       session_log: inputPath,
       graded_at: new Date().toISOString(),
@@ -110,7 +106,6 @@ proc.on("close", (code: number | null) => {
     console.log(output);
     console.error(`\nGrade written to: ${outputPath}`);
   } catch (e) {
-    // If JSON parsing fails, dump the raw output and still write it
     console.error("Warning: could not parse grader output as JSON. Raw output:");
     console.log(raw);
     writeFileSync(outputPath, raw + "\n", "utf-8");
