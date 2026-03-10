@@ -1,0 +1,4 @@
+node_modules/
+bun.lock
+*.log
+.customer-support-sessions.json

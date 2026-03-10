@@ -1,0 +1,13 @@
+{
+  "name": "ecommerce-api",
+  "version": "1.0.0",
+  "description": "Basic e-commerce REST API demo",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "db:init": "bun run src/db/init.ts"
+  },
+  "dependencies": {
+    "hono": "^4.0.0",
+    "mysql2": "^3.9.0"
+  }
+}

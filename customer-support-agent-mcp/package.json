@@ -1,0 +1,8 @@
+{
+  "name": "customer-support-agent-mcp",
+  "version": "1.0.0",
+  "description": "MCP server wrapping a Claude sub-agent for customer support with session persistence",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}
