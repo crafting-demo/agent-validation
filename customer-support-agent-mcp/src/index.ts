@@ -10,10 +10,28 @@ const CLAUDE_BIN = process.env.CLAUDE_BIN || "/root/.bun/bin/claude";
 const ECOMMERCE_MCP_DIR =
   process.env.ECOMMERCE_MCP_DIR || "/home/owner/ecommerce-mcp";
 const WORKING_DIR = process.env.WORKING_DIR || "/";
+const PROJECT_ROOT =
+  process.env.PROJECT_ROOT || "/home/owner/agent-validation";
 
 // Persist session map to disk so it survives MCP server restarts
 const SESSION_MAP_PATH =
   process.env.SESSION_MAP_PATH || "/home/owner/.customer-support-sessions.json";
+
+// Load system prompt from file
+const SYSTEM_PROMPT_PATH = resolve(
+  PROJECT_ROOT,
+  "prompts",
+  "support-agent-system-prompt.md"
+);
+
+function loadSystemPrompt(): string {
+  try {
+    if (existsSync(SYSTEM_PROMPT_PATH)) {
+      return readFileSync(SYSTEM_PROMPT_PATH, "utf-8").trim();
+    }
+  } catch {}
+  return "You are a helpful customer support agent for an e-commerce store.";
+}
 
 function loadSessionMap(): Map<string, string> {
   try {
@@ -34,19 +52,6 @@ function saveSessionMap(map: Map<string, string>) {
 }
 
 const sessionMap = loadSessionMap();
-
-const SUPPORT_SYSTEM_PROMPT = `You are a friendly and helpful customer support agent for an e-commerce store.
-You have access to tools that let you look up products, customers, and orders.
-You can also create orders, update order statuses, and manage customer information.
-
-When helping customers:
-- Be polite and professional
-- Look up relevant information before answering
-- Confirm details with the customer before making changes
-- Provide order totals and status updates clearly
-- If you don't have enough information, ask clarifying questions via your response
-
-You are having an ongoing conversation with the customer. Remember context from previous messages in this session.`;
 
 // MCP config for the sub-agent
 const mcpConfig = JSON.stringify({
@@ -83,6 +88,9 @@ function runClaude(
   sessionId: string,
   isResume: boolean
 ): Promise<string> {
+  // Re-read system prompt on each call so edits take effect without restart
+  const systemPrompt = loadSystemPrompt();
+
   return new Promise((resolvePromise, reject) => {
     const args = [
       "-p",
@@ -90,7 +98,7 @@ function runClaude(
       ...(isResume
         ? ["--resume", sessionId]
         : ["--session-id", sessionId]),
-      "--system-prompt", SUPPORT_SYSTEM_PROMPT,
+      "--system-prompt", systemPrompt,
       "--mcp-config", mcpConfig,
       "--strict-mcp-config",
       "--allowedTools", ...ALLOWED_TOOLS,
@@ -107,7 +115,6 @@ function runClaude(
       stdio: ["pipe", "pipe", "pipe"],
     });
 
-    // Send the message via stdin to avoid shell argument parsing issues
     proc.stdin.write(message);
     proc.stdin.end();
 
