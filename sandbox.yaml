@@ -1,0 +1,20 @@
+workspaces:
+  - name: app
+    env:
+      - ANTHROPIC_API_KEY=${secret:anthropic-api-key}
+  - name: api
+    ports:
+      - name: api
+        port: 3000
+        protocol: HTTP/TCP
+    checkouts:
+      - path: ecommerce-api
+dependencies:
+  - name: mysql
+    service_type: mysql
+    version: "8"
+    properties:
+      root-password: rootpass
+      username: ecommerce
+      password: ecommerce123
+      database: ecommerce_db
