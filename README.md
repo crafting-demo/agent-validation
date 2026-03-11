@@ -46,7 +46,23 @@ This project runs in a Crafting Sandbox with:
 ### Environment Variables
 - `ANTHROPIC_API_KEY` — Required for Claude CLI (mapped from `anthropic-api-key` secret)
 
-## Quick Start
+## Guided Setup with Claude Code
+
+The easiest way to get this running is a single command. It clones the repo and launches an interactive setup wizard that walks you through everything.
+
+**Prerequisites:** [Crafting Sandbox CLI (`cs`)](https://www.crafting.dev/) and [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed.
+
+```bash
+git clone https://github.com/anthropics/agent-validation.git && cd agent-validation && claude /setup
+```
+
+The wizard will:
+- Verify your Crafting secrets are configured
+- Let you choose how many parallel validation sandboxes to run (1–5)
+- Launch the full test suite — sandbox creation, deployment, customer simulation, grading, and cleanup
+- Print aggregate agent performance scores when done
+
+## Manual Setup
 
 ### Start the API server (on `api` workspace):
 ```bash
