@@ -53,7 +53,17 @@ The easiest way to get this running is a single command. It clones the repo and 
 **Prerequisites:** [Crafting Sandbox CLI (`cs`)](https://www.crafting.dev/) and [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed.
 
 ```bash
-git clone https://github.com/anthropics/agent-validation.git && cd agent-validation && claude /setup
+git clone https://github.com/crafting-demo/agent-validation.git && cd agent-validation
+```
+
+Then launch Claude Code and run the setup wizard:
+
+```bash
+cs claude
+```
+
+```
+/setup
 ```
 
 The wizard will:
