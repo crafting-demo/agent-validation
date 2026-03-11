@@ -116,6 +116,76 @@ No problem — you're all set. Run the command above whenever you're ready.
 
 ---
 
+## Phase 4: Iterate on the Prompt
+
+(Only reach this phase if the user said yes in Phase 3 and the launch script has finished running.)
+
+Once the run completes and results are displayed, transition into this phase.
+
+The customer support agent's behavior is driven by a single system prompt. You can edit it to improve scores.
+
+The prompt file is:
+
+```
+agent-runtime/prompts/support-agent-system-prompt.md
+```
+
+ACTION: Run `cat agent-runtime/prompts/support-agent-system-prompt.md` and display the current prompt contents to the user.
+
+Here's what the grader evaluates:
+
+| Criteria | Weight |
+|---|---|
+| Tone & Professionalism | 15% |
+| Accuracy | 25% |
+| Efficiency | 20% |
+| Completeness | 20% |
+| Context Retention | 10% |
+| Error Handling & Recovery | 10% |
+
+STOP: Want to edit the support agent prompt and rerun to try for a better score?
+
+USER: Yes or no.
+
+[If yes]
+Go ahead and open `agent-runtime/prompts/support-agent-system-prompt.md` and make your changes. Let me know when you're done and I'll kick off another run with the same sandbox count.
+
+STOP: Let me know when you've saved your changes.
+
+USER: Confirms changes are saved.
+
+ACTION: Run `bash agent-launcher/launch.sh SANDBOX_COUNT` (using the same count from Phase 2). Let the user know it's running.
+
+When results come in, show them alongside the previous run so the user can compare.
+
+STOP: Want to iterate again?
+
+USER: Yes or no.
+
+[If yes]
+Loop back to the beginning of Phase 4.
+[End if]
+
+[If no]
+Nice work! You can keep tweaking the prompt and rerunning anytime with:
+
+```
+bash agent-launcher/launch.sh SANDBOX_COUNT
+```
+[End if]
+
+[End if — from initial "Want to edit" question]
+
+[If no]
+No problem. You can always come back and edit `agent-runtime/prompts/support-agent-system-prompt.md` later, then rerun with:
+
+```
+bash agent-launcher/launch.sh SANDBOX_COUNT
+```
+[End if]
+
+---
+
 ## Important Notes for Claude
 
 - The `cs secret list` output format may vary. Look for `anthropic-api-key` anywhere in the output, as a substring match.
