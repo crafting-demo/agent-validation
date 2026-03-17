@@ -1,6 +1,42 @@
 # Agent Validation Demo
 
-A demo project showcasing a multi-agent architecture using MCP (Model Context Protocol) for e-commerce customer support.
+A demo project showcasing how Crafting can be used to evaluate agents using multiple parallel runs inside of sandboxes.
+
+## Demo Video
+<div>
+    <a href="https://www.loom.com/share/c548c766916f4ecebdfb997d55ab5fa0">
+      <p>Agent Evals in Crafting - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/c548c766916f4ecebdfb997d55ab5fa0">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/c548c766916f4ecebdfb997d55ab5fa0-a6a9b2300d59a6c0-full-play.gif#t=0.1">
+    </a>
+  </div>
+
+## Single command setup in Claude Code
+
+The easiest way to get this running is a single command. It clones the repo and launches an interactive setup wizard that walks you through everything.
+
+**Prerequisites:** [Crafting Sandbox CLI (`cs`)](https://www.crafting.dev/) and [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed.
+
+```bash
+git clone https://github.com/crafting-demo/agent-validation.git && cd agent-validation
+```
+
+Then launch Claude Code and run the setup wizard:
+
+```bash
+cs claude
+```
+
+```
+/setup
+```
+
+The wizard will:
+- Verify your Crafting secrets are configured
+- Let you choose how many parallel validation sandboxes to run (1–5)
+- Launch the full test suite — sandbox creation, deployment, customer simulation, grading, and cleanup
+- Print aggregate agent performance scores when done
 
 ## Architecture
 
@@ -45,32 +81,6 @@ This project runs in a Crafting Sandbox with:
 
 ### Environment Variables
 - `ANTHROPIC_API_KEY` — Required for Claude CLI (mapped from `anthropic-api-key` secret)
-
-## Guided Setup with Claude Code
-
-The easiest way to get this running is a single command. It clones the repo and launches an interactive setup wizard that walks you through everything.
-
-**Prerequisites:** [Crafting Sandbox CLI (`cs`)](https://www.crafting.dev/) and [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed.
-
-```bash
-git clone https://github.com/crafting-demo/agent-validation.git && cd agent-validation
-```
-
-Then launch Claude Code and run the setup wizard:
-
-```bash
-cs claude
-```
-
-```
-/setup
-```
-
-The wizard will:
-- Verify your Crafting secrets are configured
-- Let you choose how many parallel validation sandboxes to run (1–5)
-- Launch the full test suite — sandbox creation, deployment, customer simulation, grading, and cleanup
-- Print aggregate agent performance scores when done
 
 ## Manual Setup
 
